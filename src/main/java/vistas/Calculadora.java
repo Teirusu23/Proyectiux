@@ -42,11 +42,18 @@ public class Calculadora extends Stage
             for (int k = 0; k < 4; k++)
             {
                 arBtTec[i][k] = new Button(strTeclas[pos]);
+                int finalPos = pos;
+                arBtTec[i][k].setOnAction(event -> EventoTeclado(strTeclas[finalPos]));
                 arBtTec[i][k].setPrefSize(50,50);
-                gpTeclado.add(arBtTec[i][k],i,k);
+                gpTeclado.add(arBtTec[i][k],k,i);
                 pos++;
             }
         }
+    }
+
+    private void EventoTeclado(String strTecla)
+    {
+        txtDisplay.appendText(strTecla);
     }
 
 
