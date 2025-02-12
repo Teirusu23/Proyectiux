@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Calculadora extends Stage
@@ -28,6 +29,8 @@ public class Calculadora extends Stage
         vBox.setSpacing(10);
         vBox.setPadding(new Insets(10));
         escena = new Scene(vBox,200,200);
+        //Font.loadFont(getClass().getResourceAsStream("MGx.ttf"), 10)
+        escena.getStylesheets().add(getClass().getResource("/Styles/Calcu.css").toString());
     }
 
     public void CrearTeclas()
@@ -42,6 +45,8 @@ public class Calculadora extends Stage
             for (int k = 0; k < 4; k++)
             {
                 arBtTec[i][k] = new Button(strTeclas[pos]);
+                if(strTeclas[pos].equals("*"))
+                    arBtTec[i][k].setId("fontButton");
                 int finalPos = pos;
                 arBtTec[i][k].setOnAction(event -> EventoTeclado(strTeclas[finalPos]));
                 arBtTec[i][k].setPrefSize(50,50);

@@ -8,6 +8,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import vistas.Calculadora;
 
@@ -28,6 +29,8 @@ public class HelloApplication extends Application {
         mnbPrincipal = new MenuBar();
         mnbPrincipal.getMenus().addAll(menComp1);
         vBox = new VBox(mnbPrincipal);
+        escena = new Scene(vBox);
+        escena.getStylesheets().add(getClass().getResource("/Styles/main.css").toString());
 
     }
 
@@ -35,7 +38,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException{
         CrearUI();
         stage.setTitle("Te amo Gumshoe");
-        stage.setScene(new Scene(vBox));
+        stage.setScene(escena);
         stage.show();
         stage.setMaximized(true);
     }
