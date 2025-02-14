@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import vistas.Calculadora;
+import vistas.VentasRestaurante;
 
 import java.io.IOException;
 
@@ -18,14 +19,16 @@ public class HelloApplication extends Application {
     private VBox vBox;
     private MenuBar mnbPrincipal;
     private Menu menComp1, menComp2;
-    private MenuItem mitCalculadora;
+    private MenuItem mitCalculadora,mitRestaurante;
     private Scene escena;
 
     void CrearUI(){
         mitCalculadora = new MenuItem("Calculadora");
         mitCalculadora.setOnAction(event -> new Calculadora());
+        mitRestaurante = new MenuItem("Restaurante");
+        mitRestaurante.setOnAction(actionEvent -> new VentasRestaurante());
         menComp1= new Menu("Competencia 1");
-        menComp1.getItems().addAll(mitCalculadora);
+        menComp1.getItems().addAll(mitCalculadora,mitRestaurante);
         mnbPrincipal = new MenuBar();
         mnbPrincipal.getMenus().addAll(menComp1);
         vBox = new VBox(mnbPrincipal);
