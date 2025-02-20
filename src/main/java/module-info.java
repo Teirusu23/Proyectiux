@@ -7,4 +7,7 @@ module com.example.demo {
     requires org.kordamp.bootstrapfx.core;
     requires java.desktop;
     exports com.example.demo;
+    requires mysql.connector.j;
+    requires java.sql;
+
 }

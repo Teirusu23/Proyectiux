@@ -1,7 +1,5 @@
 package vistas;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,7 +18,7 @@ public class Calculadora extends Stage
     private GridPane gpTeclado;
     private Button[][] arBtTec;
     String strTeclas[] = {"7","8","9","*","4","5","6","/","1","2","3","+","=","0","C","-"};
-    private StringBuilder inputBuffer = new StringBuilder();
+    private StringBuilder txtVisual = new StringBuilder();
     private double resultado;
 
 
@@ -78,52 +76,56 @@ public class Calculadora extends Stage
     }
 
     private void Borrar() {
-        inputBuffer.setLength(0);
+        txtVisual.setLength(0);
         txtDisplay.setText("0");
         resultado=0.0;
     }
 
     private void Igual() {
-        if (inputBuffer.length() > 0) {
-            double operand = Double.parseDouble(inputBuffer.toString());
+        if (txtVisual.length() > 0) {
+            double operando = Double.parseDouble(txtVisual.toString());
             switch (tipodeCalc) {
                 case "+":
-                    resultado += operand;
+                    resultado += operando;
                     break;
                 case "-":
-                    resultado -= operand;
+                    resultado -= operando;
                     break;
                 case "*":
-                    resultado *= operand;
+                    resultado *= operando;
                     break;
                 case "/":
-                    if (operand != 0) {
-                        resultado /= operand;
+                    if (operando != 0) {
+                        resultado /= operando;
                     } else {
-                        inputBuffer.setLength(0);
-                        inputBuffer.append("Error");
-                        updateDisplay();
+                        txtVisual.setLength(0);
+                        txtVisual.append("Error");
+                        actualiTxt();
                         return;
                     }
                     break;
             }
-            inputBuffer.setLength(0);
-            inputBuffer.append(resultado);
+            txtVisual.setLength(0);
+            txtVisual.append(resultado);
             tipodeCalc = "";
-            updateDisplay();
+            actualiTxt();
         }
+        else {
+            txtDisplay.setText("Error Signos");
+        }
+
     }
 
-    private void updateDisplay() {
-        String displayText = inputBuffer.length() > 0 ? inputBuffer.toString() : Double.toString(resultado);
-        displayText = displayText.length() > 10 ? displayText.substring(0, 10) : displayText;
-        txtDisplay.setText(displayText);
+    private void actualiTxt() {
+        String TextMost = txtVisual.length() > 0 ? txtVisual.toString() : Double.toString(resultado);
+        TextMost = TextMost.length() > 10 ? TextMost.substring(0, 10) : TextMost;
+        txtDisplay.setText(TextMost);
     }
 
     private void Numeros(String strTecla)
     {
-        inputBuffer.append(Double.parseDouble(strTecla));
-        updateDisplay();
+        txtVisual.append(Integer.parseInt(strTecla));
+        actualiTxt();
     }
 
     private void EventoTeclado(String strTecla)
@@ -132,15 +134,20 @@ public class Calculadora extends Stage
     }
 
     private void Operador(String strTecla) {
-        if (inputBuffer.length() > 0) {
+        if (txtVisual.length() > 0) {
             if (!tipodeCalc.isEmpty()) {
                 Igual();
             }
             tipodeCalc = strTecla;
-            resultado = Double.parseDouble(inputBuffer.toString());
-            inputBuffer.setLength(0);
+            resultado = Double.parseDouble(txtVisual.toString());
+            txtVisual.setLength(0);
             EventoTeclado(strTecla);
         }
+        else {
+            EventoTeclado(strTecla);
+        }
+    }
+
 
 
 //        private void Punto (String strTecla)
@@ -148,8 +155,6 @@ public class Calculadora extends Stage
 //            txtDisplay.appendText("SMW");
 //        }
 
-
-    }
 
     public Calculadora()
     {
