@@ -111,7 +111,7 @@ public class Calculadora extends Stage
             actualiTxt();
         }
         else {
-            txtDisplay.setText("Error Signos");
+            txtDisplay.setText("Error");
         }
 
     }
