@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import modelos.Conexion;
 import vistas.Calculadora;
+import vistas.ListaClientes;
 import vistas.VentasRestaurante;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class HelloApplication extends Application {
         mitCalculadora = new MenuItem("Calculadora");
         mitCalculadora.setOnAction(event -> new Calculadora());
         mitRestaurante = new MenuItem("Restaurante");
-        mitRestaurante.setOnAction(actionEvent -> new VentasRestaurante());
+        mitRestaurante.setOnAction(actionEvent -> new ListaClientes());
         menComp1= new Menu("Competencia 1");
         menComp1.getItems().addAll(mitCalculadora,mitRestaurante);
         mnbPrincipal = new MenuBar();
