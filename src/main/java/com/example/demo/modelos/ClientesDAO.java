@@ -1,10 +1,9 @@
-package modelos;
+package com.example.demo.modelos;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ClientesDAO {

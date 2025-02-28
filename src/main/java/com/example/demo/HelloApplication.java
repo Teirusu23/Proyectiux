@@ -1,19 +1,15 @@
 package com.example.demo;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import modelos.Conexion;
-import vistas.Calculadora;
-import vistas.ListaClientes;
-import vistas.VentasRestaurante;
+import com.example.demo.modelos.Conexion;
+import com.example.demo.vistas.Calculadora;
+import com.example.demo.vistas.ListaClientes;
 
 import java.io.IOException;
 

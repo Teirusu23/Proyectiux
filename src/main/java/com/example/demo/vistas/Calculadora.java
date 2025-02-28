@@ -1,4 +1,4 @@
-package vistas;
+package com.example.demo.vistas;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

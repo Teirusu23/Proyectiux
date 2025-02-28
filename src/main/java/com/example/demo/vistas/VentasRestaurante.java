@@ -1,4 +1,4 @@
-package vistas;
+package com.example.demo.vistas;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
