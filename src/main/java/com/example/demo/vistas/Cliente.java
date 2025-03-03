@@ -1,7 +1,9 @@
 package com.example.demo.vistas;
 
+import com.example.demo.modelos.ClientesDAO;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -11,8 +13,13 @@ public class Cliente extends Stage {
     private TextField txtNombre, txtDireccion, txtTelCte, txtEmail;
     private VBox vBox;
     private Scene escena;
+    private ClientesDAO objC;
+    private TableView<ClientesDAO> tbvClientes;
 
-    public Cliente(){
+    public Cliente(TableView<ClientesDAO> tbvCte){
+        this.tbvClientes = tbvCte;
+        objC = new ClientesDAO();
+        CrearUI();
         this.setTitle("Registrar Cliente");
         this.setScene(escena);
         this.show();
@@ -25,6 +32,16 @@ public class Cliente extends Stage {
         txtTelCte = new TextField();
         txtEmail = new TextField();
         btnGuardar =new Button("Guardar");
+        btnGuardar.setOnAction(actionEvent -> {
+            objC.setNomCte(txtNombre.getText());
+            objC.setDireccion(txtDireccion.getText());
+            objC.setTelCte(txtTelCte.getText());
+            objC.setEmailCte(txtEmail.getText());
+            objC.INSERT();
+            tbvClientes.setItems(objC.SELECT());
+            tbvClientes.refresh();
+            this.close();
+        });
         vBox = new VBox(txtNombre,txtDireccion,txtTelCte,txtEmail,btnGuardar);
         escena = new Scene(vBox,120,150);
     }
