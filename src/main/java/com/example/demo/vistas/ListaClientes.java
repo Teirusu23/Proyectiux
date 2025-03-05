@@ -1,15 +1,14 @@
 package com.example.demo.vistas;
 
+import com.example.demo.componentes.ButtonCell;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.example.demo.modelos.ClientesDAO;
+import javafx.util.Callback;
 
 public class ListaClientes extends Stage {
 
@@ -50,7 +49,23 @@ public class ListaClientes extends Stage {
         tbcTel.setCellValueFactory(new PropertyValueFactory<>("telCte"));
         TableColumn<ClientesDAO,String> tbcEmail = new TableColumn<>("Email");
         tbcEmail.setCellValueFactory(new PropertyValueFactory<>("emailCte"));
-        tbvClientes.getColumns().addAll(tbcNomCte,tbcDireccion,tbcTel,tbcEmail);
+
+        TableColumn<ClientesDAO,String> tbcEditar = new TableColumn<>("");
+        tbcEditar.setCellFactory(new Callback<TableColumn<ClientesDAO, String>, TableCell<ClientesDAO, String>>() {
+            @Override
+            public TableCell<ClientesDAO, String> call(TableColumn<ClientesDAO, String> clientesDAOStringTableColumn) {
+                return new ButtonCell("Editar");
+            }
+        });
+        TableColumn<ClientesDAO,String> tbcEliminar = new TableColumn<>("");
+        tbcEliminar.setCellFactory(new Callback<TableColumn<ClientesDAO, String>, TableCell<ClientesDAO, String>>() {
+            @Override
+            public TableCell<ClientesDAO, String> call(TableColumn<ClientesDAO, String> clientesDAOStringTableColumn) {
+                return new ButtonCell("Eliminar");
+            }
+        });
+
+        tbvClientes.getColumns().addAll(tbcNomCte,tbcDireccion,tbcTel,tbcEmail,tbcEditar,tbcEliminar);
         tbvClientes.setItems(objC.SELECT());
     }
 }

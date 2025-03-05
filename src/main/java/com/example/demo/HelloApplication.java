@@ -1,6 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.vistas.Rompecabeza;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -17,7 +20,7 @@ public class HelloApplication extends Application {
     private VBox vBox;
     private MenuBar mnbPrincipal;
     private Menu menComp1, menComp2;
-    private MenuItem mitCalculadora,mitRestaurante;
+    private MenuItem mitCalculadora,mitRestaurante,mitRompecabeza;
     private Scene escena;
 
     void CrearUI(){
@@ -25,8 +28,10 @@ public class HelloApplication extends Application {
         mitCalculadora.setOnAction(event -> new Calculadora());
         mitRestaurante = new MenuItem("Restaurante");
         mitRestaurante.setOnAction(actionEvent -> new ListaClientes());
+        mitRompecabeza = new MenuItem("Rompecabeza");
+        mitRompecabeza.setOnAction(actionEvent -> new Rompecabeza());
         menComp1= new Menu("Competencia 1");
-        menComp1.getItems().addAll(mitCalculadora,mitRestaurante);
+        menComp1.getItems().addAll(mitCalculadora,mitRestaurante,mitRompecabeza);
         mnbPrincipal = new MenuBar();
         mnbPrincipal.getMenus().addAll(menComp1);
         vBox = new VBox(mnbPrincipal);
