@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.componentes.Hilo;
 import com.example.demo.vistas.Rompecabeza;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -42,6 +43,13 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException{
+        new Hilo("Gumshoe").start();
+        new Hilo("Tails").start();
+        new Hilo("Georgia").start();
+        new Hilo("Adagio").start();
+        new Hilo("Bayonetta").start();
+        new Hilo("Rouge").start();
+        new Hilo("Franziska").start();
         Conexion.createConnection();
         CrearUI();
         stage.setTitle("Te amo Gumshoe");
