@@ -5,16 +5,15 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 
+public class Pieza extends Pane {
 
-public class Piezas extends Pane {
     private Background originalBackground;
     private Boolean isBlank = false;
     private int x, y;
 
-    Piezas(Image image, Boolean isBlank, int x, int y){
+    Pieza(Image image, Boolean isBlank, int x, int y){
 
         this.x = x;
         this.y = y;
@@ -40,7 +39,7 @@ public class Piezas extends Pane {
         if(!isBlank) {
             int[] neighboursLocs = new int[] { -1, 0, 0, -1, 0, 1, 1, 0};
 
-            ArrayList<Piezas> neighbours = new ArrayList<Piezas>();
+            ArrayList<Pieza> neighbours = new ArrayList<Pieza>();
 
             for (int i = 0; i < neighboursLocs.length; i++) {
                 int dx = neighboursLocs[i];
@@ -54,11 +53,11 @@ public class Piezas extends Pane {
                 }
             }
 
-            for(Piezas piezas : neighbours){
-                if(piezas.isBlank){
+            for(Pieza tile : neighbours){
+                if(tile.isBlank){
                     Background temp = this.getBackground();
-                    piezas.isBlank = false;
-                    piezas.setBackground(temp);
+                    tile.isBlank = false;
+                    tile.setBackground(temp);
                     BackgroundFill backgroundFill = new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY);
                     Background background = new Background(backgroundFill);
                     this.setBackground(background);
@@ -67,7 +66,7 @@ public class Piezas extends Pane {
             }
         }
         if(!ai) {
-            Rompecabeza.checkGanar();
+            Rompecabeza.checarGanar();
         }
     }
 
@@ -80,4 +79,3 @@ public class Piezas extends Pane {
         return originalBackground.equals(this.getBackground());
     }
 }
-

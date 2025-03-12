@@ -28,7 +28,7 @@ public class ListaClientes extends Stage {
     private void CrearUI(){
         tbvClientes = new TableView<>();
         btAgregar = new Button();
-        btAgregar.setOnAction(actionEvent -> new Cliente(tbvClientes));
+        btAgregar.setOnAction(actionEvent -> new Cliente(tbvClientes,null));
         ImageView imv = new ImageView(getClass().getResource("/Images/Icon.png").toString());
         imv.setFitWidth(20);
         imv.setFitHeight(20);

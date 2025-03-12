@@ -15,25 +15,29 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class Rompecabeza extends Stage {
     private static VBox vBox = new VBox();
-    private static Image imagen = new Image("/Images/Rompe.jpeg");
-    static Piezas[][] piezas;
-
-    private Scene escena;
+    private static Image imagen;
+    private static Scene escena;
+    private static long TI,TF,TF1;
+    private static long Tiempo;
 
     static int numPiezas = 9;
+    static Pieza[][] piezas;
 
     private static void refresh(){
-        piezas = new Piezas[(int) Math.sqrt(numPiezas)][(int) Math.sqrt(numPiezas)];
+        TI=System.nanoTime();
+        Tiempo = 0;
+        piezas = new Pieza[(int) Math.sqrt(numPiezas)][(int) Math.sqrt(numPiezas)];
         vBox.getChildren().clear();
-        vBox.getChildren().addAll(crearUI(),createGrid());
+        vBox.getChildren().addAll(crearUI(), createGrid());
 
-        // Mix it up
         Random rand = new Random();
         for(int i = 0; i < 10000; i++){
             int x = rand.nextInt((int) Math.sqrt(numPiezas));
@@ -46,67 +50,66 @@ public class Rompecabeza extends Stage {
         for(int i = 0; i < (int) Math.sqrt(numPiezas); i++){
             for(int j = 0; j < (int) Math.sqrt(numPiezas); j++){
                 PixelReader lector = imagen.getPixelReader();
-                int tamaño = 480/(int) Math.sqrt(numPiezas);
-                WritableImage newImage = new WritableImage(lector, i*tamaño,j*tamaño,tamaño,tamaño);
+                int tamano = 480/(int) Math.sqrt(numPiezas);
+                WritableImage newImage = new WritableImage(lector, i*tamano,j*tamano,tamano,tamano);
 
-                Piezas pieza;
+                Pieza pieza;
 
                 if(i == (int) Math.sqrt(numPiezas)-1 && j == (int) Math.sqrt(numPiezas)-1) {
-                    pieza = new Piezas(newImage, true,i,j);
+                    pieza = new Pieza(newImage, true,i,j);
                 }
                 else{
-                    pieza = new Piezas(newImage, false,i,j);
+                    pieza = new Pieza(newImage, false,i,j);
                 }
                 piezas[i][j] = pieza;
             }
         }
 
-        GridPane gpPiezas = new GridPane();
-        gpPiezas.setHgap(1);
-        gpPiezas.setVgap(1);
+        GridPane gridLayout = new GridPane();
+        gridLayout.setHgap(1);
+        gridLayout.setVgap(1);
 
         for(int i = 0; i < (int) Math.sqrt(numPiezas); i++){
             for(int j = 0; j < (int) Math.sqrt(numPiezas); j++) {
-                gpPiezas.add(piezas[i][j],i,j);
+                gridLayout.add(piezas[i][j],i,j);
             }
         }
-        return gpPiezas;
+        return gridLayout;
     }
 
     private static Node crearUI(){
 
         MenuBar menuBar = new MenuBar();
 
-        Menu difficultyMenu = new Menu("Dificultad");
+        Menu dificulMenu = new Menu("Dificultad");
 
-        MenuItem facilIte = new MenuItem("Facil (3x3)");
-        facilIte.setOnAction(actionEvent -> { numPiezas = 9; refresh(); });
-        MenuItem MediaIte = new MenuItem("Media (4x4)");
-        MediaIte.setOnAction(actionEvent -> { numPiezas = 16; refresh(); });
-        MenuItem DifiIte = new MenuItem("Dificil (5x5)");
-        DifiIte.setOnAction(actionEvent -> { numPiezas = 25; refresh(); });
+        MenuItem facilMit = new MenuItem("Fácil (3x3)");
+        facilMit.setOnAction(actionEvent -> { numPiezas = 9; refresh(); });
+        MenuItem NormMit = new MenuItem("Normal (4x4)");
+        NormMit.setOnAction(actionEvent -> { numPiezas = 16; refresh(); });
+        MenuItem DifMit = new MenuItem("Difícil (5x5)");
+        DifMit.setOnAction(actionEvent -> { numPiezas = 25; refresh(); });
 
-        difficultyMenu.getItems().addAll(facilIte, MediaIte,DifiIte);
+        dificulMenu.getItems().addAll(facilMit,NormMit,DifMit);
 
-        Menu hintMenu = new Menu("Pista");
+        Menu pistaMenu = new Menu("Pista");
 
-        ImageView hintImage = new ImageView(imagen);
-        hintImage.setPreserveRatio(true);
-        hintImage.setFitWidth(175);
+        ImageView ImagenPist = new ImageView(imagen);
+        ImagenPist.setPreserveRatio(true);
+        ImagenPist.setFitWidth(175);
 
-        MenuItem hintImageMenuItem = new MenuItem();
+        MenuItem PistaMit = new MenuItem();
 
-        hintImageMenuItem.setGraphic(hintImage);
+        PistaMit.setGraphic(ImagenPist);
 
-        hintMenu.getItems().add(hintImageMenuItem);
+        pistaMenu.getItems().add(PistaMit);
 
-        menuBar.getMenus().addAll(difficultyMenu, hintMenu);
+        menuBar.getMenus().addAll(dificulMenu, pistaMenu);
 
         return menuBar;
-
     }
 
-    static void checkGanar() {
+    static void checarGanar() {
         int counter = 0;
         for(int i = 0; i < Rompecabeza.piezas.length; i++){
             for(int j = 0; j < Rompecabeza.piezas[i].length; j++){
@@ -116,16 +119,23 @@ public class Rompecabeza extends Stage {
             }
         }
         if(counter == Rompecabeza.numPiezas){
-            Gano();
+            TF=System.nanoTime();
+            TF1=TF-TI;
+            Tiempo = Tiempo + TF1;
+            Tiempo = (long) (Tiempo*0.000000001);
+            VentanaTiempo vt = new VentanaTiempo();
+            guardarRecords();
+            vt.VentanaTiempo(Tiempo, escena);
+            Ganar();
         }
     }
 
-    private static void Gano(){
-        Alert ganeee = new Alert(Alert.AlertType.INFORMATION);
-        ganeee.setTitle("Haz Ganado");
-        ganeee.setHeaderText("Felicidades!");
-        ganeee.setContentText("Haz resueslto este rompecabeza!");
-        ganeee.showAndWait();
+    private static void Ganar(){
+        Alert gan = new Alert(Alert.AlertType.INFORMATION);
+        gan.setTitle("¡Has Ganado!");
+        gan.setHeaderText("¡Felicidades!");
+        gan.setContentText("¡Has resuelto este rompecabezas!");
+        gan.showAndWait();
         for(Node node : vBox.getChildren()){
             if(node instanceof GridPane) {
                 node.setDisable(true);
@@ -133,7 +143,20 @@ public class Rompecabeza extends Stage {
         }
     }
 
-    public Rompecabeza(){
+    private static void guardarRecords()
+    {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("records.txt",true))){
+            writer.write("Se tardó "+Tiempo+" segundos\n");
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+public Rompecabeza(){
+        imagen = new Image(getClass().getResource("/Images/Otto.png").toString());
+        refresh();
         escena = new Scene(vBox, 500, 500);
         this.setScene(escena);
         this.setTitle("Rompecabeza");
