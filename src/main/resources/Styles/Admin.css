@@ -1,0 +1,10 @@
+
+.root {
+    -fx-font-size: 12pt;
+
+}
+
+.Titulo{
+    -fx-font-size: 18pt;
+    -fx-alignment: center;
+}

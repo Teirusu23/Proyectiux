@@ -1,0 +1,116 @@
+/* Fondo general */
+.root {
+    -fx-background-color: #ff7700;
+    -fx-background-image: url("../Images/fondoNara.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-font-family: "FOT-PopHappiness Std EB" ;
+}
+
+/* Estilo para el contenedor de productos */
+#productPane {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+}
+
+/* Estilo para los botones de productos */
+.product-button {
+    -fx-background-color: #4CAF50; /* Color de fondo del botón */
+    -fx-text-fill: white; /* Color del texto */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-pref-width: 120px; /* Ancho preferido */
+    -fx-pref-height: 120px; /* Alto preferido */
+    -fx-border-radius: 10; /* Bordes redondeados */
+    -fx-padding: 5; /* Espaciado interno */
+}
+
+/* Efecto al pasar el cursor sobre el botón */
+.product-button:hover {
+    -fx-background-color: #45a049;
+}
+
+/* Ajustar el tamaño y posicionamiento de las imágenes */
+.product-button .image-view {
+    -fx-fit-width: 60px;  /* Ajustar el ancho de la imagen */
+    -fx-fit-height: 60px; /* Ajustar la altura de la imagen */
+    -fx-preserve-ratio: true; /* Mantener la proporción de la imagen */
+}
+
+/* Etiqueta (nombre del producto) */
+.product-button .label {
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+/* Estilo para los contenedores de categorías */
+.category-button {
+    -fx-background-color: #007BFF;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 150px;
+    -fx-border-radius: 5px;
+}
+
+/* Estilo para el panel de orden */
+.order-box {
+    -fx-background-color: #ff6300;
+    -fx-border-color: #e15300;
+    -fx-border-width: 1;
+    -fx-padding: 15px;
+    -fx-spacing: 10px;
+    -fx-pref-width: 350px;
+}
+
+/* Botón de guardar orden */
+.save-order-button {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+}
+
+.save-order-button:hover {
+    -fx-background-color: #218838;
+}
+
+.table-box {
+    -fx-background-color: #ffb600;
+    -fx-font-size: 14px;
+}
+
+.table-box:hover {
+    -fx-background-color: #af7c00;
+}
+
+.admin-button {
+    -fx-background-color: #68af4c;
+    -fx-text-fill: white;
+}
+
+.admin-button:hover {
+    -fx-background-color: #4d8339;
+}
+
+.client-box{
+    -fx-background-color: #f16262;
+}
+
+.client-box:hover {
+    -fx-background-color: #ba4a4a;
+}
+
+.add-client-btn {
+    -fx-background-color: #0052ff;
+    -fx-text-fill: white;
+}
+
+.add-client-button:hover {
+    -fx-background-color: #002e98;
+}
