@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Cliente extends Stage {
@@ -56,5 +57,7 @@ public class Cliente extends Stage {
         });
         vBox = new VBox(txtNombre,txtDireccion,txtTelCte,txtEmail,btnGuardar);
         escena = new Scene(vBox,120,150);
+        escena.getStylesheets().add(getClass().getResource("/Styles/GenericTablaCrud.css").toExternalForm());
+        Font.loadFont(getClass().getResource("/Fonts/MarGal.ttf").toExternalForm(),16);
     }
 }
