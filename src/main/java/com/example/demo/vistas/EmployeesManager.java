@@ -64,14 +64,16 @@ public class EmployeesManager {
         try {
             List<Employee> list = EmployeeDAO.getAll();
             table.getItems().setAll(list);
-        } catch (SQLException ex) { ex.printStackTrace(); }
+        } catch (Exception ex) {
+            showAlert(ex.getMessage());}
     }
     private void onAdd() {
         EmployeeDialog dlg = new EmployeeDialog(stage);
         Employee e = dlg.showDialog(null);
         if (e!=null) {
             try { EmployeeDAO.saveOrUpdate(e); loadData(); }
-            catch(SQLException ex){ ex.printStackTrace(); }
+            catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
     private void onEdit() {
@@ -81,13 +83,25 @@ public class EmployeesManager {
         Employee e = dlg.showDialog(sel);
         if (e!=null) {
             try { EmployeeDAO.saveOrUpdate(e); loadData(); }
-            catch(SQLException ex){ ex.printStackTrace(); }
+            catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
+
         }
     }
     private void onDelete() {
         Employee sel = table.getSelectionModel().getSelectedItem();
         if (sel==null) return;
         try { EmployeeDAO.delete(sel.getId()); loadData(); }
-        catch(SQLException ex){ ex.printStackTrace(); }
+        catch (Exception ex) {
+            showAlert(ex.getMessage());}
+    }
+
+
+    private void showAlert(String msg) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(msg);
+    alert.showAndWait();
     }
 }

@@ -82,9 +82,8 @@ public class ReservationsManager {
         try {
             List<Reservation> list = ReservationDAO.getAll();
             table.getItems().setAll(list);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {
+            showAlert(ex.getMessage());}
     }
 
     private void onAdd() {
@@ -94,9 +93,8 @@ public class ReservationsManager {
             try {
                 ReservationDAO.saveOrUpdate(r);
                 loadData();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            } catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
 
@@ -109,9 +107,8 @@ public class ReservationsManager {
             try {
                 ReservationDAO.saveOrUpdate(r);
                 loadData();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            } catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
     private void onDelete() {
@@ -120,8 +117,15 @@ public class ReservationsManager {
         try {
             ReservationDAO.delete(sel.getId());
             loadData();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {
+            showAlert(ex.getMessage());}
+    }
+
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }

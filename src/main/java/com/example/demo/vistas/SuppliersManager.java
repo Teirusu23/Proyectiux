@@ -4,6 +4,7 @@ import com.example.demo.modelos.Supplier;
 import com.example.demo.modelos.SupplierDAO;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -69,9 +70,8 @@ public class SuppliersManager {
         try {
             List<Supplier> list = SupplierDAO.getAll();
             table.getItems().setAll(list);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {
+            showAlert(ex.getMessage());}
     }
 
     private void onAdd() {
@@ -81,9 +81,8 @@ public class SuppliersManager {
             try {
                 SupplierDAO.saveOrUpdate(s);
                 loadData();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            } catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
 
@@ -96,9 +95,8 @@ public class SuppliersManager {
             try {
                 SupplierDAO.saveOrUpdate(s);
                 loadData();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            } catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
 
@@ -108,8 +106,15 @@ public class SuppliersManager {
         try {
             SupplierDAO.delete(selected.getId());
             loadData();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {
+            showAlert(ex.getMessage());}
+    }
+
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }

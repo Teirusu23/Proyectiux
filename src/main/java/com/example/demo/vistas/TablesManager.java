@@ -50,7 +50,8 @@ public class TablesManager {
         try {
             List<Table> list = TableDAO.getAll();
             tableView.getItems().setAll(list);
-        } catch (SQLException ex) { ex.printStackTrace(); }
+        } catch (Exception ex) {
+            showAlert(ex.getMessage());}
     }
 
     private void onAdd() {
@@ -58,7 +59,8 @@ public class TablesManager {
         Table t = dlg.showDialog(null);
         if (t != null) {
             try { TableDAO.saveOrUpdate(t); loadData(); }
-            catch (SQLException ex) { ex.printStackTrace(); }
+            catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
 
@@ -66,6 +68,15 @@ public class TablesManager {
         Table sel = tableView.getSelectionModel().getSelectedItem();
         if (sel == null) return;
         try { TableDAO.delete(sel.getId()); loadData(); }
-        catch (SQLException ex) { ex.printStackTrace(); }
+        catch (Exception ex) {
+            showAlert(ex.getMessage());}
+    }
+
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }

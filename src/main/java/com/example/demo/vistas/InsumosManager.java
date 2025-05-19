@@ -68,9 +68,8 @@ public class InsumosManager {
         try {
             List<Insumo> list = InsumoDAO.getAll();
             table.getItems().setAll(list);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {
+            showAlert(ex.getMessage());}
     }
 
     private void onAdd() {
@@ -80,9 +79,8 @@ public class InsumosManager {
             try {
                 InsumoDAO.saveOrUpdate(i);
                 loadData();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            } catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
 
@@ -95,9 +93,8 @@ public class InsumosManager {
             try {
                 InsumoDAO.saveOrUpdate(updated);
                 loadData();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            } catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
 
@@ -107,8 +104,15 @@ public class InsumosManager {
         try {
             InsumoDAO.delete(selected.getId());
             loadData();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {
+            showAlert(ex.getMessage());}
+    }
+
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }

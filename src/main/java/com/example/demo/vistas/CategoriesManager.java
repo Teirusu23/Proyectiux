@@ -60,14 +60,16 @@ public class CategoriesManager {
         try {
             List<Category> list = CategoryDAO.getAll();
             table.getItems().setAll(list);
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (Exception ex) {
+            showAlert(ex.getMessage());}
     }
     private void onAdd() {
         CategoryDialog dlg = new CategoryDialog(stage);
         Category c = dlg.showDialog(null);
         if (c!=null) {
             try { CategoryDAO.saveOrUpdate(c); loadData(); }
-            catch(SQLException ex){ ex.printStackTrace(); }
+            catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
     private void onEdit() {
@@ -77,13 +79,23 @@ public class CategoriesManager {
         Category c = dlg.showDialog(sel);
         if (c!=null) {
             try { CategoryDAO.saveOrUpdate(c); loadData(); }
-            catch(SQLException ex){ ex.printStackTrace(); }
+            catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
     private void onDelete() {
         Category sel = table.getSelectionModel().getSelectedItem();
         if (sel==null) return;
         try { CategoryDAO.delete(sel.getId()); loadData(); }
-        catch(SQLException ex){ ex.printStackTrace(); }
+        catch (Exception ex) {
+            showAlert(ex.getMessage());}
+    }
+
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }

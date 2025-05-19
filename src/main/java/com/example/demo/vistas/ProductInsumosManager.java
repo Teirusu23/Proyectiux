@@ -156,7 +156,7 @@ public class ProductInsumosManager extends Stage {
                 ProductInsumoDAO.saveOrUpdate(pi);
                 loadInsumos();
                 dialog.close();
-            } catch (SQLException ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 showAlert("Error al guardar insumo.");
             }

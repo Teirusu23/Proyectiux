@@ -94,9 +94,8 @@ public class ProductsManager {
         try {
             List<Product> list = ProductDAO.getAll();
             table.getItems().setAll(list);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ex) {
+            showAlert(ex.getMessage());}
     }
 
     private void onAdd() {
@@ -106,9 +105,8 @@ public class ProductsManager {
             try {
                 ProductDAO.saveOrUpdate(p);
                 loadData();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            } catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
 
@@ -121,9 +119,8 @@ public class ProductsManager {
             try {
                 ProductDAO.saveOrUpdate(p);
                 loadData();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            } catch (Exception ex) {
+                showAlert("No se pudo guardar porque: " + ex.getMessage());}
         }
     }
     private void onDelete() {
@@ -132,9 +129,16 @@ public class ProductsManager {
         try {
             ProductDAO.delete(selected.getId());
             loadData();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ex) {
+            showAlert(ex.getMessage());}
+    }
+
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
 }

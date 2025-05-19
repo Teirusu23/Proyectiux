@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 public class VentasRestaurante extends Stage {
@@ -221,10 +222,21 @@ public class VentasRestaurante extends Stage {
             if (file != null) {
                 TicketPDFGenerator.generateTicket(orderId, file.getAbsolutePath());
             }
+
         } catch (Exception e) {
-            e.printStackTrace();
+            showAlert(
+                    "No se pudo guardar la orden porque: " + e.getMessage());
         }
     }
+
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
 
 
     public VentasRestaurante()
