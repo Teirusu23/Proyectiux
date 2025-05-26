@@ -23,7 +23,7 @@ public class ListaClientes extends Stage {
         CrearUI();
         this.setTitle("Listado de Clientes ewe");
         this.setScene(escena);
-        this.show();
+        this.showAndWait();
     }
 
     private void CrearUI(){

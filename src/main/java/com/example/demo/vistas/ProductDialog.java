@@ -12,6 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,6 +25,7 @@ public class ProductDialog {
     private final ComboBox<String> categoryCombo;
     private final Label imageLabel;
     private String imagePath;
+    private TextField priceField;
 
     public ProductDialog(Stage owner) {
         dialog = new Stage();
@@ -34,6 +36,8 @@ public class ProductDialog {
         nameField = new TextField();
         categoryCombo = new ComboBox<>();
         categoryCombo.getItems().addAll(loadCategories());
+        priceField = new TextField();
+        priceField.setPromptText("0.00");
 
         Button chooseBtn = new Button("Seleccionar Imagen");
         imageLabel = new Label("Ninguna");
@@ -49,10 +53,12 @@ public class ProductDialog {
         grid.add(categoryCombo, 1, 1);
         grid.add(chooseBtn, 0, 2);
         grid.add(imageLabel, 1, 2);
+        grid.add(new Label("Precio"), 0, 3);
+        grid.add(priceField, 1, 3);
 
         Button saveBtn = new Button("Guardar");
         saveBtn.setOnAction(e -> onSave());
-        grid.add(saveBtn, 1, 3);
+        grid.add(saveBtn, 1, 4);
 
         scene = new Scene(grid);
         scene.getStylesheets().add(getClass().getResource("/Styles/GenericTablaCrud.css").toExternalForm());
@@ -66,15 +72,21 @@ public class ProductDialog {
             categoryCombo.getSelectionModel().select(existing.getCategory());
             imagePath = existing.getImagePath();
             imageLabel.setText(imagePath != null ? imagePath : "Ninguna");
+            priceField.setText(String.valueOf(existing.getPrice().toString()));
         }
         dialog.showAndWait();
-        if (nameField.getText().isEmpty() || categoryCombo.getValue() == null) {
+        if (nameField.getText().isEmpty() || categoryCombo.getValue() == null || priceField.getText().isEmpty()) {
             return null;
         }
         Product p = existing != null ? existing : new Product();
         p.setName(nameField.getText());
         p.setCategory(categoryCombo.getValue());
         p.setImagePath(imagePath);
+        try {
+            p.setPrice(new BigDecimal(priceField.getText()));
+        } catch (Exception ex) {
+            p.setPrice(BigDecimal.ZERO);
+        }
         return p;
     }
 

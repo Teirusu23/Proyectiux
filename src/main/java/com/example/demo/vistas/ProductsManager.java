@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -55,7 +56,10 @@ public class ProductsManager {
             return new javafx.beans.property.SimpleObjectProperty<>(null);
         });
 
-        table.getColumns().addAll(colId, colName, colCat, colPath, colImg);
+        TableColumn<Product, BigDecimal> colPrice = new TableColumn<>("Precio");
+        colPrice.setCellValueFactory(data -> new javafx.beans.property.SimpleObjectProperty(data.getValue().getPrice()));
+
+        table.getColumns().addAll(colId, colName, colCat, colPath, colImg, colPrice);
 
         Button addBtn = new Button("Agregar");
         addBtn.setOnAction(e -> onAdd());

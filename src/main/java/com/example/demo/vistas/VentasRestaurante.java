@@ -18,6 +18,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -124,6 +125,7 @@ public class VentasRestaurante extends Stage {
         // Botón para agregar nuevo cliente
         Button addClientBtn = new Button("Agregar Cliente");
         addClientBtn.setOnAction(e -> { new ListaClientes();
+            refreshClients();
         });
 
         clientBox.getChildren().addAll(clientLabel, clientSelector, addClientBtn);
@@ -176,7 +178,7 @@ public class VentasRestaurante extends Stage {
                 Image image = new Image("file:"+ p.getImagePath(),60,60,true,true);
                 ImageView imageView = new ImageView(image);
                 VBox vbox = new VBox(7);
-                vbox.getChildren().addAll(new Label(p.getName()),imageView);
+                vbox.getChildren().addAll(new Label(p.getName()),imageView,new Label("$"+p.getPrice().toString()));
                 Button btn = new Button();
                 btn.setPrefSize(120, 120);
                 btn.getStyleClass().add("product-button");
@@ -202,17 +204,25 @@ public class VentasRestaurante extends Stage {
 
     private void updateOrderView() {
         ObservableList<String> display = FXCollections.observableArrayList();
+        BigDecimal total = BigDecimal.ZERO;
         for (OrderItem item : orderItems) {
-            display.add(item.getProduct().getName() + " x " + item.getQuantity());
+            BigDecimal lineTotal = item.getProduct().getPrice().multiply(new BigDecimal(item.getQuantity()));
+            display.add(String.format("%s x%d  $%s",
+                    item.getProduct().getName(),
+                    item.getQuantity(),
+                    item.getProduct().getPrice()
+                    ));
+            total = total.add(lineTotal);
         }
+        display.add(String.format("Total $%.2f", total));
         orderListView.setItems(display);
     }
 
     private void saveOrder() {
-        int tableId = tableSelector.getValue();
-        int employeeId = employeeSelector.getValue().getId();
-        int clienteId = clientSelector.getValue().getIdCte();
         try {
+            int tableId = tableSelector.getValue();
+            int employeeId = employeeSelector.getValue().getId();
+            int clienteId = clientSelector.getValue().getIdCte();
             int orderId = Database.saveOrder(orderItems, tableId,employeeId,clienteId);
             orderItems.clear();
             updateOrderView();
@@ -237,6 +247,16 @@ public class VentasRestaurante extends Stage {
         alert.showAndWait();
     }
 
+    private void refreshClients(){
+        try {
+            ObservableList<ClientesDAO> clientes = new ClientesDAO().SELECT();
+            clientSelector.getItems().setAll(clientes);
+            clientSelector.getSelectionModel().selectFirst();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     public VentasRestaurante()
@@ -253,15 +273,20 @@ public class VentasRestaurante extends Stage {
         private int id;
         private String name;
         private String imagePath;
-        public Product(int id, String name, String imagePath) {
+        private BigDecimal price;
+
+        public Product(int id, String name, String imagePath, BigDecimal price) {
             this.id = id;
             this.name = name;
             this.imagePath = imagePath;
+            this.price = price;
         }
         public int getId() { return id; }
         public String getName() { return name; }
         public String getImagePath() { return imagePath; }
-
+        public void setId(int id) { this.id = id; }
+        public void setPrice(BigDecimal price) { this.price = price; }
+        public BigDecimal getPrice() { return price; }
     }
 
     public static class OrderItem {

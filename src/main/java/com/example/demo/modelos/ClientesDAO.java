@@ -2,6 +2,7 @@ package com.example.demo.modelos;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -61,7 +62,7 @@ public class ClientesDAO {
             Statement state = Conexion.connection.createStatement();
             state.executeUpdate(query);
         } catch (Exception e) {
-            e.printStackTrace();
+            showAlert(e.getMessage());
         }
 
     }
@@ -74,7 +75,7 @@ public class ClientesDAO {
             Statement state = Conexion.connection.createStatement();
             state.executeUpdate(query);
         } catch (Exception e) {
-            e.printStackTrace();
+            showAlert(e.getMessage());
         }
     }
 
@@ -108,5 +109,13 @@ public class ClientesDAO {
             e.printStackTrace();
         }
         return listaC;
+    }
+
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }

@@ -28,12 +28,12 @@ public class Database {
 
     public static List<VentasRestaurante.Product> getProductsByCategory(String categoryName) throws SQLException {
         List<VentasRestaurante.Product> list = new ArrayList<>();
-        String sql = "SELECT p.id, p.name, p.image_path FROM products p JOIN categories c ON p.category_id=c.id WHERE c.name=?";
+        String sql = "SELECT p.id, p.name, p.image_path, p.price FROM products p JOIN categories c ON p.category_id=c.id WHERE c.name=?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, categoryName);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    list.add(new VentasRestaurante.Product(rs.getInt("id"), rs.getString("name"), rs.getString("image_path")));
+                    list.add(new VentasRestaurante.Product(rs.getInt("id"), rs.getString("name"), rs.getString("image_path"), rs.getBigDecimal("price")));
                 }
             }
         }

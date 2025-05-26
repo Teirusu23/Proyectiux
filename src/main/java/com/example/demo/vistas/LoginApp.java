@@ -55,7 +55,7 @@ public class LoginApp extends Stage {
         grid.add(loginBtn, 1, 2);
         grid.add(status, 1, 3);
 
-        scene = new Scene(grid, 600, 200);
+        scene = new Scene(grid, 600, 230);
         scene.getStylesheets().add(getClass().getResource("/Styles/Login.css").toExternalForm());
         Font.loadFont(getClass().getResource("/Fonts/MarGal.ttf").toExternalForm(),16);
         this.setScene(scene);

@@ -8,6 +8,7 @@ import com.itextpdf.layout.properties.ListNumberingType;
 import com.itextpdf.layout.properties.TextAlignment;
 
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.format.DateTimeFormatter;
 
@@ -48,11 +49,13 @@ public class TicketPDFGenerator {
         }
 
         // Detalle de items
+        BigDecimal total = BigDecimal.ZERO;
+
         doc.add(new Paragraph("Productos:").setBold().setMarginTop(10));
 
         List itemList = new List(ListNumberingType.DECIMAL);
         String itemsSql =
-                "SELECT p.name, oi.quantity FROM order_items oi " +
+                "SELECT p.name, oi.quantity, p.price FROM order_items oi " +
                         " JOIN products p ON oi.product_id = p.id " +
                         " WHERE oi.order_id = ?";
         try (PreparedStatement psi = Database.getConnection()
@@ -60,15 +63,27 @@ public class TicketPDFGenerator {
             psi.setInt(1, orderId);
             try (ResultSet rs2 = psi.executeQuery()) {
                 while (rs2.next()) {
-                    String text = String.format("%s x%d",
-                            rs2.getString("name"),
-                            rs2.getInt("quantity"));
-                    itemList.add(new ListItem(text));
+                            String name = rs2.getString("name");
+                            int qty = rs2.getInt("quantity");
+                            BigDecimal price = rs2.getBigDecimal("price");
+                            BigDecimal subtotal = price.multiply(BigDecimal.valueOf(qty));
+                            total = total.add(subtotal);
+
+                            String line = String.format("%s $%.2f x %d = $%.2f",
+                                    name,
+                                    price,
+                                    qty,
+                                    subtotal);
+                    itemList.add(new ListItem(line));
                 }
             }
         }
         doc.add(itemList);
 
+        doc.add(new Paragraph(String.format("Total: $%.2f", total)))
+                .setBold()
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setTopMargin(10);
 
         doc.close();
     }

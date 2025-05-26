@@ -8,7 +8,7 @@ public class ProductDAO {
 
     public static List<Product> getAll() throws SQLException {
         List<Product> list = new ArrayList<>();
-        String sql = "SELECT p.id, p.name, c.name AS category, p.image_path " +
+        String sql = "SELECT p.id, p.name, c.name AS category, p.image_path, p.price " +
                 "FROM products p " +
                 "JOIN categories c ON p.category_id = c.id";
         try (Statement stmt = Conexion.connection.createStatement();
@@ -18,7 +18,8 @@ public class ProductDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("category"),
-                        rs.getString("image_path")
+                        rs.getString("image_path"),
+                        rs.getBigDecimal("price")
                 ));
             }
         }
@@ -27,22 +28,24 @@ public class ProductDAO {
 
     public static void saveOrUpdate(Product p) throws SQLException {
         if (p.getId() <= 0) {
-            String insert = "INSERT INTO products(name, category_id, image_path) " +
-                    "VALUES(?, (SELECT id FROM categories WHERE name = ?), ?)";
+            String insert = "INSERT INTO products(name, category_id, image_path, price) " +
+                    "VALUES(?, (SELECT id FROM categories WHERE name = ?), ?, ?)";
             try (PreparedStatement ps = Conexion.connection.prepareStatement(insert)) {
                 ps.setString(1, p.getName());
                 ps.setString(2, p.getCategory());
                 ps.setString(3, p.getImagePath());
+                ps.setBigDecimal(4, p.getPrice());
                 ps.executeUpdate();
             }
         } else {
-            String update = "UPDATE products SET name = ?, category_id = (SELECT id FROM categories WHERE name = ?), image_path = ? " +
+            String update = "UPDATE products SET name = ?, category_id = (SELECT id FROM categories WHERE name = ?), image_path = ?, price = ? " +
                     "WHERE id = ?";
             try (PreparedStatement ps = Conexion.connection.prepareStatement(update)) {
                 ps.setString(1, p.getName());
                 ps.setString(2, p.getCategory());
                 ps.setString(3, p.getImagePath());
-                ps.setInt(4, p.getId());
+                ps.setBigDecimal(4, p.getPrice());
+                ps.setInt(5, p.getId());
                 ps.executeUpdate();
             }
         }

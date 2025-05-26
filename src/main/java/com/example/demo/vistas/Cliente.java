@@ -1,16 +1,20 @@
 package com.example.demo.vistas;
 
 import com.example.demo.modelos.ClientesDAO;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Cliente extends Stage {
     private Button btnGuardar;
+    private Label lblNombre, lblDireccion, lblTelefono, lblEmail;
     private TextField txtNombre, txtDireccion, txtTelCte, txtEmail;
     private VBox vBox;
     private Scene escena;
@@ -37,10 +41,26 @@ public class Cliente extends Stage {
     }
 
     private void CrearUI(){
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10));
+        grid.setVgap(8);
+        grid.setHgap(10);
+        lblNombre = new Label("Nombre");
         txtNombre = new TextField();
+        lblDireccion = new Label("Direccion");
         txtDireccion = new TextField();
+        lblTelefono = new Label("Telefono");
         txtTelCte = new TextField();
+        lblEmail = new Label("Email");
         txtEmail = new TextField();
+        grid.add(lblNombre, 0, 0);
+        grid.add(txtNombre, 1, 0);
+        grid.add(lblDireccion, 0, 1);
+        grid.add(txtDireccion, 1, 1);
+        grid.add(lblTelefono, 0, 2);
+        grid.add(txtTelCte, 1, 2);
+        grid.add(lblEmail, 0, 3);
+        grid.add(txtEmail, 1, 3);
         btnGuardar =new Button("Guardar");
         btnGuardar.setOnAction(actionEvent -> {
             objC.setNomCte(txtNombre.getText());
@@ -55,8 +75,8 @@ public class Cliente extends Stage {
             tbvClientes.refresh();
             this.close();
         });
-        vBox = new VBox(txtNombre,txtDireccion,txtTelCte,txtEmail,btnGuardar);
-        escena = new Scene(vBox,120,150);
+        vBox = new VBox(grid,btnGuardar);
+        escena = new Scene(vBox,250,160);
         escena.getStylesheets().add(getClass().getResource("/Styles/GenericTablaCrud.css").toExternalForm());
         Font.loadFont(getClass().getResource("/Fonts/MarGal.ttf").toExternalForm(),16);
     }
