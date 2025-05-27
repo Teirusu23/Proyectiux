@@ -12,6 +12,14 @@ target/
 *.iml
 *.ipr
 
+### Classes ###
+/src/main/java/com/example/demo/componentes/Hilo.java
+/src/main/java/com/example/demo/vistas/Calculadora.java
+/src/main/java/com/example/demo/vistas/CarreraFavsSegun.java
+/src/main/java/com/example/demo/vistas/Pieza.java
+/src/main/java/com/example/demo/vistas/Rompecabeza.java
+/src/main/java/com/example/demo/vistas/VentanaTiempo.java
+
 ### Eclipse ###
 .apt_generated
 .classpath
