@@ -20,6 +20,12 @@ target/
 /src/main/java/com/example/demo/vistas/Rompecabeza.java
 /src/main/java/com/example/demo/vistas/VentanaTiempo.java
 
+## Resources ##
+/src/main/resources/Images/fondo.PNG
+/src/main/resources/Images/Otto.png
+/src/main/resources/Styles/main.css
+/src/main/resources/Styles/Calcu.css
+
 ### Eclipse ###
 .apt_generated
 .classpath

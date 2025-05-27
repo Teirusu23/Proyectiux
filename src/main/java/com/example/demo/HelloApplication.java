@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.componentes.Hilo;
+//import com.example.demo.componentes.Hilo;
 import com.example.demo.vistas.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -23,6 +23,7 @@ public class HelloApplication extends Application {
     private Scene escena;
 
     void CrearUI(){
+        /*
         mitCalculadora = new MenuItem("Calculadora");
         mitCalculadora.setOnAction(event -> new Calculadora());
         mitRestaurante = new MenuItem("Restaurante");
@@ -38,8 +39,10 @@ public class HelloApplication extends Application {
         mnbPrincipal = new MenuBar();
         mnbPrincipal.getMenus().addAll(menComp1,menComp2);
         vBox = new VBox(mnbPrincipal);
-        escena = new Scene(vBox);
-        escena.getStylesheets().add(getClass().getResource("/Styles/main.css").toString());
+         */
+        VentasRestaurante venta = new VentasRestaurante();
+        //escena = new Scene();
+        //escena.getStylesheets().add(getClass().getResource("/Styles/main.css").toString());
 
     }
 
@@ -54,10 +57,10 @@ public class HelloApplication extends Application {
 //        new Hilo("Franziska").start();
         Conexion.createConnection();
         CrearUI();
-        stage.setTitle("Te amo Gumshoe");
-        stage.setScene(escena);
-        stage.show();
-        stage.setMaximized(true);
+        //stage.setTitle("Te amo Gumshoe");
+        //stage.setScene(escena);
+        //stage.show();
+        //stage.setMaximized(true);
     }
     public static void main(String[] args) {
         launch();
